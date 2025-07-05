@@ -1,7 +1,6 @@
 // app/components/App.tsx
 "use client";
 import React, { useCallback, useState, useEffect, useRef } from "react";
-import PdfUploader from "./PdfUploader";
 import KeywordSearch from "./KeywordSearch";
 import PdfViewer from "./PdfViewer";
 import { Header } from "./Header";
@@ -9,7 +8,8 @@ import Spinner from "./Spinner";
 import { convertPdfToImages, searchPdf } from "../utils/pdfUtils";
 import type { IHighlight } from "react-pdf-highlighter";
 import HighlightUploader from "./HighlightUploader";
-import { StoredHighlight, StorageMethod } from "../utils/types";
+import PdfUploader from "./PdfUploader";
+import { StoredHighlight, StoredPdf, StorageMethod } from "../utils/types";
 import {
   IHighlightToStoredHighlight,
   StoredHighlightToIHighlight,
@@ -18,6 +18,7 @@ import { createWorker } from "tesseract.js";
 // import { useSession } from "next-auth/react";
 import { getPdfId } from "../utils/pdfUtils";
 import { storageMethod } from "../utils/env";
+import { get } from "http";
 
 export default function App() {
   const [pdfUploaded, setPdfUploaded] = useState(false);
@@ -62,26 +63,44 @@ export default function App() {
       const blob = new Blob([new Uint8Array(pdf)], { type: "application/pdf" });
       const fileOcrUrl = URL.createObjectURL(blob);
       setPdfOcrUrl(fileOcrUrl);
+      
+      const blobToBase64 = (blob : Blob) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          resolve(reader.result);
+        };
+      });
+      };
+      const b64 = await blobToBase64(blob);
+
+      const pdfObj = {
+        id: pdfId,
+        name: file.name,
+        numPages: 0,
+        file: b64,
+      } as StoredPdf;
 
       // Index words
-      // const data = res.data.words;
-      // const words = data.map(({ text, bbox: { x0, y0, x1, y1 } }) => {
-      //   return {
-      //     keyword: text,
-      //     x1: x0,
-      //     y1: y0,
-      //     x2: x1,
-      //     y2: y1,
-      //   };
-      // });
-      // await fetch("/api/index", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     pdfId,
-      //     words,
-      //   }),
-      // });
+      const data = res.data.words;
+      const words = data.map(({ text, bbox: { x0, y0, x1, y1 } }) => {
+        return {
+          keyword: text,
+          x1: x0,
+          y1: y0,
+          x2: x1,
+          y2: y1,
+        };
+      });
+      await fetch("/api/index", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdfObj,
+          words,
+        }),
+      });
     }
     setPdfUrl(fileUrl);
     setPdfUploaded(true);
@@ -90,7 +109,7 @@ export default function App() {
     setLoading(false);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getHighlights = async () => {
       if (!pdfName) {
         return;
@@ -114,14 +133,14 @@ export default function App() {
       }
     };
     getHighlights();
-  }, [pdfName, pdfId]);
+  }, [pdfName, pdfId]);*/
 
   const handleHighlightUpload = (file: File) => {
     const fileUrl = URL.createObjectURL(file);
     setHighlightUrl(fileUrl);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const setHighlightsFromFile = async () => {
       if (!highlightUrl || !pdfUploaded) {
         return;
@@ -148,7 +167,58 @@ export default function App() {
       }
     };
     setHighlightsFromFile();
-  }, [highlightUrl, pdfUploaded, pdfId]);
+  }, [highlightUrl, pdfUploaded, pdfId]);*/
+
+  /*useEffect(() => {
+    const setHighlightsFromFile = async () => {
+      if (!highlightUrl || !pdfUploaded) {
+        return;
+      }
+      const res = await fetch(highlightUrl);
+      if (res.ok) {
+        const data = await res.json();
+        const highlights = data.map((highlight: StoredHighlight) =>
+          StoredHighlightToIHighlight(highlight)
+        );
+        setHighlights(highlights);
+        const body =
+          storageMethod === StorageMethod.sqlite
+            ? {
+                pdfId,
+                highlights: data,
+              }
+            : data;
+        await fetch("/api/highlight/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      }
+    };
+    setHighlightsFromFile();
+  }, [highlightUrl, pdfUploaded, pdfId]);*/
+
+  const getPdf = (pdfId : string) => {
+    const pdfGet = async () => {
+      const res = await fetch("/api/pdf/get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdfId,
+        }),
+      });
+      if (res.ok) {
+        const resPdf = await res.json();
+        console.log("getPdfs", pdfId, resPdf);
+        if (resPdf) {
+          return resPdf as StoredPdf;
+        }
+      }
+    }
+    return pdfGet();
+  }
+
+  const pdfRes = getPdf(pdfId || "");
 
   const resetHighlights = () => {
     setHighlights([]);
@@ -255,16 +325,17 @@ export default function App() {
           <div className="max-w-xl mx-auto space-y-6">
             <PdfUploader
               onFileUpload={handleFileUpload}
+              name={pdfName || ""}
               pdfUploaded={pdfUploaded}
             />
             {
-              /* session.status === "authenticated" &&  */ pdfId && (
+              /* session.status === "authenticated" && */ /*pdfId && (
                 <HighlightUploader
                   onFileUpload={handleHighlightUpload}
                   highlights={highlights}
                   pdfId={pdfId}
                 />
-              )
+              )*/
             }
             {pdfUrl && (
               <KeywordSearch
@@ -293,6 +364,16 @@ export default function App() {
               scrollToHighlightFromHash={scrollToHighlightFromHash}
             />
           )}
+          <div>
+            <p>
+              {pdfRes.then((pdfData) => {
+                if (pdfData) {
+                  return `PDF Name: ${pdfData.name}, PDF ID: ${pdfData.id}`;
+                }
+                return "No PDF loaded.";
+              })}
+            </p>
+          </div>
         </div>
       </div>
     </div>

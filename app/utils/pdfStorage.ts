@@ -1,7 +1,7 @@
-// app/utils/highlightStorage.ts
+// app/utils/PdfStorage.ts
 // Bonus challenge.
 
-/*import { StoredHighlight } from "./types";
+import { StoredPdf } from "./types";
 import SQLiteDatabase from "./sqliteUtils";
 
 // TODO: Import necessary types and libraries
@@ -12,54 +12,42 @@ import SQLiteDatabase from "./sqliteUtils";
 // import { Database } from "your-chosen-database-library";
 
 // TODO: Define an interface for the highlight data we want to store
-// interface StoredHighlight {
+// interface StoredPdf {
 //   id: string;
-//   pdfId: string;
-//   pageNumber: number;
-//   x1: number;
-//   y1: number;
-//   x2: number;
-//   y2: number;
-//   width: number;
-//   height: number;
-//   text: string;
-//   keyword: string;
+//   name: string;
+//   file: Blob;
 // }
 
 // TODO: Define a class to handle highlight storage operations
 
-class HighlightStorage {
+class PdfStorage {
   private db: SQLiteDatabase;
 
   constructor() {
     this.db = new SQLiteDatabase();
   }
 
-  async saveHighlight(highlight: StoredHighlight): Promise<void> {
-    if (!highlight.keyword) {
-      highlight.keyword = ""; // or some default value
-    }
-    await this.db.saveHighlight(highlight);
+  async savePdf(file: StoredPdf): Promise<void> {
+    await this.db.savePdf(file);
   }
 
-  async saveBulkHighlights(highlights: StoredHighlight[]): Promise<void> {
-    const validHighlights = highlights.map((highlight) => ({
-      ...highlight,
-      keyword: highlight.keyword || "", // or some default value
+  async saveBulkPdfs(files: StoredPdf[]): Promise<void> {
+    const validPdfs = files.map((file) => ({
+      ...file,
     }));
-    await this.db.saveBulkHighlights(validHighlights);
+    await this.db.saveBulkPdfs(validPdfs);
   }
 
-  async getHighlightsForPdf(pdfId: string): Promise<StoredHighlight[]> {
-    return await this.db.getHighlightsForPdf(pdfId);
+  async getPdf(pdfId: string): Promise<StoredPdf[]> {
+    return await this.db.getPdf(pdfId);
   }
 
-  async deleteHighlight(pdfId: string, id: string): Promise<void> {
-    await this.db.deleteHighlight(pdfId, id);
+  async deletePdf(id: string): Promise<void> {
+    await this.db.deletePdf(id);
   }
-
+/*
   async indexWords(
-    pdfId: string,
+    id: string,
     words: {
       keyword: string;
       x1: number;
@@ -68,7 +56,7 @@ class HighlightStorage {
       y2: number;
     }[]
   ): Promise<void> {
-    const storedHighlights = words.map((word) => ({
+    const StoredPdfs = words.map((word) => ({
       ...word,
       id: Math.random().toString(36).substr(2, 9),
       pdfId,
@@ -78,15 +66,15 @@ class HighlightStorage {
       text: "",
       image: undefined,
     }));
-    await this.saveBulkHighlights(storedHighlights);
-  }
+    await this.saveBulkPdfs(StoredPdfs);
+  }*/
 
   async close(): Promise<void> {
     await this.db.close();
   }
 
   // TODO: Implement updateHighlight method
-  // async updateHighlight(id: string, updatedData: Partial<StoredHighlight>): Promise<void> {
+  // async updateHighlight(id: string, updatedData: Partial<StoredPdf>): Promise<void> {
   //   // Implement update logic
   // }
 
@@ -115,9 +103,8 @@ class HighlightStorage {
 //   // Read from JSON file and insert highlights into the database
 // }
 
-// Export the HighlightStorage class for use in other parts of the application
-export default HighlightStorage;
+// Export the PdfStorage class for use in other parts of the application
+export default PdfStorage;
 
 // FINAL CHALLENGE: Consider how you would scale this solution for large numbers of PDFs and highlights
 // Think about indexing, partitioning, and potential cloud-based solutions
-*/

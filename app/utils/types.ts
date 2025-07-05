@@ -14,6 +14,13 @@ export interface StoredHighlight {
   keyword: string;
 }
 
+export interface StoredPdf {
+  id: string;
+  name: string;
+  numPages: number;
+  file: Blob;
+}
+
 export enum StorageMethod {
   supabase = "supabase",
   sqlite = "sqlite",

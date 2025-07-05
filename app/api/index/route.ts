@@ -1,6 +1,7 @@
 // app/api/index/route.ts
 import { storageMethod } from "../../utils/env";
-import HighlightStorage from "../../utils/highlightStorage";
+import PdfStorage from "../../utils/pdfStorage";
+import pdfStorage from "../../utils/pdfStorage";
 import { StorageMethod } from "../../utils/types";
 
 export async function POST(req: Request) {
@@ -9,8 +10,8 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     if (storageMethod === StorageMethod.sqlite) {
-      db = new HighlightStorage(body.pdfId);
-      await db.indexWords(body.pdfId, body.words);
+      db = new PdfStorage();
+      db.savePdf(body.pdf);
     } else {
       throw new Error("Index via supabase has not been implemented");
     }

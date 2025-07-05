@@ -233,3 +233,13 @@ export const convertPdfToImages = async (file: File) => {
   canvas.remove();
   return images;
 };
+
+const convertToBlob = (file: File) => {
+  return new Promise((resolve, reject) => {
+    var request = new XMLHttpRequest();
+    let fileUrl = URL.createObjectURL(file);
+    request.open('GET', fileUrl, true);
+    request.responseType = 'blob';
+    return request.response;
+  })
+};

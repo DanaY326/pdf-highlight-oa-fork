@@ -6,11 +6,13 @@ import { Upload } from "lucide-react";
 
 interface PdfUploaderProps {
   onFileUpload: (file: File) => void;
+  name: string;
   pdfUploaded: boolean;
 }
 
 const PdfUploader: React.FC<PdfUploaderProps> = ({
   onFileUpload,
+  name,
   pdfUploaded,
 }) => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
