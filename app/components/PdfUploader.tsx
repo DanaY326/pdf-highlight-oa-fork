@@ -1,6 +1,5 @@
 // app/components/PdfUploader.tsx
 import React from "react";
-//import fs from 'fs';
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Upload } from "lucide-react";

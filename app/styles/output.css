@@ -449,12 +449,6 @@ video {
   display: none;
 }
 
-.part {
-  cursor: pointer;
-  position: absolute;
-  background: rgb(110, 10, 181) !important;
-}
-
 *,
 ::before,
 ::after {

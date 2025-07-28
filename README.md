@@ -12,7 +12,7 @@ This project is a PDF viewer and keyword search application developed as part of
 - Document information display (total pages, current page)
 - Keyword search across the entire PDF
 - Text highlighting for search matches
-- Sidebar for search pages and navigation
+- Sidebar for search results and navigation
 - Responsive design for various screen sizes
 - Persistent storage of highlights using SQLite or Supabase
 
@@ -47,7 +47,7 @@ This project is a PDF viewer and keyword search application developed as part of
 - `PdfViewer.tsx`: Handles PDF rendering and navigation
 - `KeywordSearch.tsx`: Manages keyword search functionality
 - `HighlightPopup.tsx`: Displays information about highlighted text
-- `Sidebar.tsx`: Shows search pages and navigation options
+- `Sidebar.tsx`: Shows search results and navigation options
 - `highlightStorage.ts`: Manages highlight storage operations
 - `sqliteUtils.ts`: Handles SQLite database operations
 

@@ -129,7 +129,6 @@ export const getLines = async (
       // Extract text content from the page
       const textContent = await page.getTextContent({includeMarkedContent: false});
       const textItems = textContent.items as any[];
-      //text[pageNum - 1] = textItems;
 
       let lastY: number | null = null;
       let textLine = "";
