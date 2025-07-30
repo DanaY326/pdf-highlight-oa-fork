@@ -81,5 +81,5 @@ This project is a PDF viewer and vector search application that can search throu
 - [Next.js](https://nextjs.org/) for the React framework
 - [react-pdf](https://github.com/wojtekmaj/react-pdf) for PDF rendering capabilities
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS framework
-- [HuggingFace](https://huggingface.co/) for the embedding framework
+- [HuggingFace](https://huggingface.co/) for the embedding model
 - [Tessearct OCR](https://tesseract.projectnaptha.com/) for OCR output
