@@ -85,4 +85,4 @@ This project is a PDF viewer and vector search application that can search throu
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS framework
 - [HuggingFace](https://huggingface.co/) for the NLP framework
 - [Tessearct OCR](https://tesseract.projectnaptha.com/) for OCR output
-- [sqlite_vec](https://github.com/asg017/sqlite-vec) for vector storage support with SQLite
+- [sqlite_vec](https://github.com/asg017/sqlite-vec) for SQLite vector storage
