@@ -1,8 +1,8 @@
-# PDF Highlighter 
+# PDF Vector Search application 
 
 ## Project Overview
 
-This project is a PDF viewer and keyword search application developed as part of the Adanomad Tech Consulting Challenge. It allows users to upload PDF documents, view them in a web browser, search for keywords, and highlight matching text.
+This project is a PDF viewer and vector search application that can search through both images and text using HuggingFace Transformers
 
 ## Features
 
@@ -10,11 +10,12 @@ This project is a PDF viewer and keyword search application developed as part of
 - Page navigation (next, previous, jump to specific page)
 - Zoom in/out functionality
 - Document information display (total pages, current page)
-- Keyword search across the entire PDF
+- Indexing of text, including with OCR, and all images
+- Vector search across multiple PDFs
 - Text highlighting for search matches
 - Sidebar for search results and navigation
 - Responsive design for various screen sizes
-- Persistent storage of highlights using SQLite or Supabase
+- Persistent storage of highlights using SQLite
 
 ## Technologies Used
 
@@ -22,9 +23,9 @@ This project is a PDF viewer and keyword search application developed as part of
 - React 
 - TypeScript
 - react-pdf library for PDF rendering
-- Tailwind CSS for stylinge
+- Tailwind CSS for styling
 - SQLite for local highlight storage
-- Supabase for cloud-based highlight storage (optional)
+- HuggingFace for embedding data in preparation for vector search
 
 ## Getting Started
 
@@ -50,10 +51,12 @@ This project is a PDF viewer and keyword search application developed as part of
 - `Sidebar.tsx`: Shows search results and navigation options
 - `highlightStorage.ts`: Manages highlight storage operations
 - `sqliteUtils.ts`: Handles SQLite database operations
+- `clipText.ts` and `clipImage.ts`: Handles embedding data
 
 ## Features
 
-- Has a highlight storage system supporting both SQLite and Supabase
+- Has a highlight storage system supporting both SQLite
+- Semantic search across images and text in multiple PDFs
 - API routes for creating, retrieving, updating, and deleting highlights
 - User authentication and document permissions (currently disabled)
 - Export/import as JSON functionality for highlights
@@ -80,3 +83,6 @@ This project is a PDF viewer and keyword search application developed as part of
 - [Supabase](https://supabase.io/) for cloud database capabilities
 - [react-pdf](https://github.com/wojtekmaj/react-pdf) for PDF rendering capabilities
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS framework
+- [HuggingFace](https://huggingface.co/) for the NLP framework
+- [Tessearct OCR](https://tesseract.projectnaptha.com/) for OCR output
+- [sqlite_vec](https://github.com/asg017/sqlite-vec) for vector storage support with SQLite
