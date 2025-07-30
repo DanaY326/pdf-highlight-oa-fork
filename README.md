@@ -1,4 +1,5 @@
 # PDF Vector Search application 
+[Demo video](https://youtu.be/uokCXtcg0_w?si=fRNHOHXFbvSodzf4&t=20)
 
 ## Project Overview
 
