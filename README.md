@@ -50,7 +50,6 @@ This project is a PDF viewer and vector search application that can search throu
 - `HighlightPopup.tsx`: Displays information about highlighted text
 - `Sidebar.tsx`: Shows search results and navigation options
 - `highlightStorage.ts`: Manages highlight storage operations
-- `sqliteUtils.ts`: Handles SQLite database operations
 - `clipText.ts` and `clipImage.ts`: Handles embedding data
 
 ## Features
@@ -79,10 +78,7 @@ This project is a PDF viewer and vector search application that can search throu
 ## Acknowledgements
 
 - [Next.js](https://nextjs.org/) for the React framework
-- [SQLite](https://www.sqlite.org/) for local database storage
-- [Supabase](https://supabase.io/) for cloud database capabilities
 - [react-pdf](https://github.com/wojtekmaj/react-pdf) for PDF rendering capabilities
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS framework
 - [HuggingFace](https://huggingface.co/) for the NLP framework
 - [Tessearct OCR](https://tesseract.projectnaptha.com/) for OCR output
-- [sqlite_vec](https://github.com/asg017/sqlite-vec) for SQLite vector storage
